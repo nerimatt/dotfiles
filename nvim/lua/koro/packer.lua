@@ -14,30 +14,8 @@ return require('packer').startup(function(use)
     use("williamboman/mason-lspconfig.nvim")
     use('hrsh7th/nvim-cmp')
     use("hrsh7th/cmp-nvim-lsp")
-    -- use{'L3MON4D3/LuaSnip'}
+    use{'L3MON4D3/LuaSnip'}
 
-    -- use {
-    --     'VonHeikemen/lsp-zero.nvim',
-    --     branch = 'v3.x',
-    --     requires = {
-    --         -- LSP Support
-    --         {'neovim/nvim-lspconfig'},             -- Required
-    --         {                                      -- Optional
-    --             'williamboman/mason.nvim',
-    --             run = function()
-    --                 pcall(vim.cmd, 'MasonUpdate')
-    --             end,
-    --         },
-    --         {'williamboman/mason-lspconfig.nvim'}, -- Optional
-
-    --         -- Autocompletion
-    --         {'hrsh7th/nvim-cmp'},     -- Required
-    --         {'hrsh7th/cmp-nvim-lsp'}, -- Required
-    --         {'L3MON4D3/LuaSnip'},     -- Required
-    --     }
-    -- }
-    -- use('hrsh7th/nvim-cmp')
-    -- use("hrsh7th/cmp-nvim-lsp")
 
     use {
       'nvim-telescope/telescope.nvim', tag = '0.1.8', -- or branch = '0.1.x',
@@ -49,15 +27,7 @@ return require('packer').startup(function(use)
     use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'} )
     use('nvim-treesitter/playground') -- run with 'TSPlaygroundToggle'
 
-    -- --TODO: https://www.youtube.com/watch?v=FuYQ7M73bC0
-    -- --use({
-    -- --  "nvim-treesitter/nvim-treesitter-textobjects",
-    -- --  after = "nvim-treesitter",
-    -- --  requires = "nvim-treesitter/nvim-treesitter",
-    -- --})
-
-
-    use('m4xshen/autoclose.nvim')
+    -- use('m4xshen/autoclose.nvim')
 
     use('theprimeagen/harpoon')
 
@@ -90,9 +60,6 @@ return require('packer').startup(function(use)
     -- end,
     -- })
 
-    -- -- use ({"norcalli/nvim-colorizer.lua"})
-
-    -- --https://github.com/goolord/alpha-nvim
     use {
         'goolord/alpha-nvim',
         requires = { 'nvim-tree/nvim-web-devicons' },
@@ -101,10 +68,6 @@ return require('packer').startup(function(use)
         end
     }
 
-
-    -- -- use {"akinsho/toggleterm.nvim", tag = '*', config = function()
-    -- --   require("toggleterm").setup()
-    -- -- end}
 
 
     use {
@@ -133,53 +96,37 @@ return require('packer').startup(function(use)
     --         vim.g.mkdp_browser = "/usr/bin/firefox"
     --     end
     -- })
+    -- use("OXY2DEV/markview.nvim")
 
     -- -- https://github.com/mg979/vim-visual-multi
     -- -- tut: https://www.youtube.com/watch?v=p4D8-brdrZo
     use("mg979/vim-visual-multi")
 
-    -- -- TODO: DEBUGGER
-    -- -- https://www.youtube.com/watch?v=lEMZnrC-ST4 -- tutorial
-    -- -- use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} } -- https://github.com/rcarriga/nvim-dap-ui
-    -- -- use { "theHamsta/nvim-dap-virtual-text" }
-
-
-    -- -- notebbok
-    -- use { 'dccsillag/magma-nvim', run = ':UpdateRemotePlugins' }
-
-    -- use{
-    --     "folke/noice.nvim",
-    --     requires = {
-    --          "MunifTanjim/nui.nvim",
-    --          -- "rcarriga/nvim-notify",
-    --     }
-    -- }
-
 
 end)
 
--- plugin manager can be run with PackerSync
+-- plugin manager can be run with PackerSync (it will update all packages)
 
 -- -- You must run this or `PackerSync` whenever you make changes to your plugin configuration
 -- -- Regenerate compiled loader file
 -- :PackerCompile
--- 
--- -- Remove any disabled or unused plugins
+--
+-- -- Remove any disabled or unused plugins, (it will not update packages)
 -- :PackerClean
--- 
+--
 -- -- Clean, then install missing plugins
 -- :PackerInstall
--- 
+--
 -- -- Clean, then update and install plugins
 -- -- supports the `--preview` flag as an optional first argument to preview updates
 -- :PackerUpdate
--- 
+--
 -- -- Perform `PackerUpdate` and then `PackerCompile`
 -- -- supports the `--preview` flag as an optional first argument to preview updates
 -- :PackerSync
--- 
+--
 -- -- Show list of installed plugins
 -- :PackerStatus
--- 
+--
 -- -- Loads opt plugin immediately
 -- :PackerLoad completion-nvim ale

@@ -33,7 +33,7 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]]) -- delete to void register
 vim.keymap.set("i", "jk", "<Esc>")
 
 --vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>") -- switch session --TODO
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>") -- switch session --TODO:
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 -- quick fix navigation
@@ -42,8 +42,10 @@ vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
+-- this replaces only occurence in file, for global replacement (in whole project) -> grn
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]) -- replace word you are on on entire file
 -- to change only in selection, in visual mode press ":" -> it will give "'<,'>" just add ""s/old_word/new_word"
+
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true }) -- make file executable
 
 --vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/.config/nvim/lua/koro/packer.lua<CR>");
@@ -80,6 +82,8 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set({"n", "i"}, "<C-o>", "<Esc>:Telescope buffers <CR>") -- show open buffers
 
 
+-- NOTE: %:h is current dir, % is filename
+
 -- check for gradle config, if found run gradlew and if not run normally java file
 -- OLD: !javac -d out/ ./% && java -cp ./out/ %:t:r, -- %:t:r -> gets filename, then tail, then removes tail
 local javaCommandString = "!if [ -f 'gradlew' ]; then ./gradlew run && ./gradlew build; else javac -d out/ ./% && java -cp ./out/ %:t:r; fi"
@@ -89,6 +93,10 @@ local javaCommandString = "!if [ -f 'gradlew' ]; then ./gradlew run && ./gradlew
 -- NOTE: OUTFILE RULE MUSTY BE DEFINED IN MAKEFILE AND SHOULD ONLY PRINT FILE TO EXECUTE AFTER COMPILATION
 local cCommandString = "!if [ -f 'Makefile' ]; then make && ./$(make outfile); else gcc -o %:t:r % && ./%:t:r; fi"
 local cppCommandString = "!if [ -f 'Makefile' ]; then make && ./$(make outfile); else g++ -o %:t:r % && ./%:t:r; fi"
+-- local cuCommandString = "!if [ -f 'Makefile' ]; then make && ./$(make outfile); else g++ -o %:t:r % && ./%:t:r; fi" -- TODO:?
+
+-- NOTE: set output file name in folder "out"
+local haskellCommandString = "!cd %:h && mkdir -p out && ghc % -outputdir=out -o ./out/%:t:r && ./out/%:t:r"
 
 local shellCommandString = "![ -x % ] && ./% || echo 'file or folder not executable'" -- check if file is not a dir before running
 
@@ -105,8 +113,10 @@ vim.api.nvim_create_user_command("RunFile",function()
         [ "java" ] = javaCommandString,
         [ "c" ] = cCommandString,
         [ "cpp" ] = cppCommandString,
+        [ "cu" ] = cppCommandString,
         [ "h" ] = cCommandString,
         [ "sh" ] = shellCommandString,
+        [ "hs" ] = haskellCommandString,
         [ "" ] = shellCommandString
     }
     local choice = ext_table[ext]
@@ -116,8 +126,5 @@ vim.api.nvim_create_user_command("RunFile",function()
     else
         print(string.format("file extension not recognized: '%s'", ext))
     end
-
-
 end,{})
-
 vim.keymap.set("n", "<leader>r", ":RunFile <CR>") -- execute file if possible

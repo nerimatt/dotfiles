@@ -8,8 +8,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts)
         vim.keymap.set('n', '<leader>vd', function() vim.diagnostic.open_float() end, opts)
-        vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, opts)
-        vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set('n', '[d', function() vim.diagnostic.jump({count=-1, float=true}) end, opts) -- vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, opts)
+        vim.keymap.set('n', '[d', function() vim.diagnostic.jump({count=1, float=true}) end, opts) -- vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, opts)
         vim.keymap.set('n', '<leader>vca', function() vim.lsp.buf.code_action() end, opts)
         vim.keymap.set('n', '<leader>vrr', function() vim.lsp.buf.references() end, opts)
         vim.keymap.set('n', '<leader>vrn', function() vim.lsp.buf.rename() end, opts)
@@ -22,50 +22,42 @@ local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = {"lua_ls", 'clangd', 'rust_analyzer'},
+    -- ensure_installed = {"lua_ls", 'clangd', 'rust_analyzer'}, -- NOTE: never use lua_ls, it uses system installed documewnts/github/_lsp/lua-lsp
+    ensure_installed = {"lua_ls"},
     handlers = {
         function(server_name)
-            require('lspconfig')[server_name].setup({
-            capabilities = lsp_capabilities,
-            })
+            vim.lsp.config(server_name, lsp_capabilities)
+            vim.lsp.enable(server_name)
+
         end,
-        lua_ls = function()
-            require('lspconfig').lua_ls.setup({
-                capabilities = lsp_capabilities,
-                settings = {
-                    Lua = {
-                        runtime = {
-                            version = 'LuaJIT'
-                        },
-                        diagnostics = {
-                            globals = {'vim'},
-                        },
-                        workspace = {
-                            library = {
-                                vim.env.VIMRUNTIME,
-                            }
-                        }
-                    }
-                }
-            })
-        end,
+
     }
 })
+
+vim.lsp.config('hls', {
+    cmd = { "haskell-language-server-wrapper", "--lsp" },
+    filetypes = { 'haskell', 'lhaskell' },
+    root_markers = { "*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml" },
+    capabilities = lsp_capabilities,
+})
+vim.lsp.enable('hls')
+
+
 
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 
 cmp.setup({
     sources = cmp.config.sources({
-        {name = 'nvim_lsp'},  
-        {name = 'luasnip'},  
+        {name = 'nvim_lsp'},
+        {name = 'luasnip'},
         {name = 'buffer'},
         {name = 'path'},
     }),
     mapping = cmp.mapping.preset.insert({
         ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
         ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-        ['<CR>'] = cmp.mapping.confirm({select = true}),
+        ['<CR>'] = cmp.mapping.confirm({select = true}), -- TODO: set to "alt enter"
         ['<C-Space>'] = cmp.mapping.complete(),
     }),
     snippet = {

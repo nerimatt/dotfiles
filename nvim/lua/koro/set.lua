@@ -51,3 +51,32 @@ vim.opt.splitbelow = true
 -- remove automatically commenting when going to next line
 vim.opt_local.formatoptions:remove({ 'r', 'o' })
 
+-- rename help to open itself in vertical
+vim.cmd("cabbrev help vert help")
+vim.cmd("cabbrev h vert h")
+
+
+
+-- https://stackoverflow.com/questions/8958357/vim-plugin-for-auto-closed-parenthesis
+-- autoclose
+vim.keymap.set("i", '(', '()<left>')
+vim.keymap.set("i", '[', '[]<left>')
+vim.keymap.set("i", '{', '{}<left>')
+vim.keymap.set("i", '"', '""<left>')
+vim.keymap.set("i", "'", "''<left>")
+vim.keymap.set("i", '`', '``<left>')
+
+-- TODO: if deleted the first ( bracket in "()", delete also the )
+
+-- autoclose brackets with return
+--inoremap {<cr> {<cr>}<C-O><S-O>
+vim.keymap.set("i", '(<cr>', '(<cr>)<C-O><S-O>')
+vim.keymap.set("i", '[<cr>', '[<cr>]<C-O><S-O>')
+vim.keymap.set("i", '{<cr>', '{<cr>}<C-O><S-O>')
+
+-- enclose a selection in normal mode
+vim.keymap.set("v", '(', 'c(<C-r>")')
+vim.keymap.set("v", '[', 'c[<C-r>"]')
+vim.keymap.set("v", '{', 'c{<C-r>"}')
+vim.keymap.set("v", '"', '<Esc>`<i"<Esc>`>a<right>"<Esc>')
+vim.keymap.set("v", "'", "<Esc>`<i'<Esc>`>a<right>'<Esc>")

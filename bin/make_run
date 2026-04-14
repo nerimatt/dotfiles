@@ -1,3 +1,8 @@
 # compile c code and run it
 # make must have rule "outfile" that echoes the path to the executable
-make && ./$(make outfile)
+make &&
+
+# https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
+echo "\033[0;96;1;4;6mSTARTING\033[0m" && 
+
+./$(make outfile) $@

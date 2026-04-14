@@ -3,8 +3,8 @@ configuration {
 	modi: "window,drun";
 	font: "Cascadia Code 11";
 
-    show-icons: true;
-    icon-theme: "Oranchelo-Beka";
+	show-icons: true;
+	icon-theme: "Oranchelo";
 
 	display-drun: "  Apps";
 	display-window: "  Windows";

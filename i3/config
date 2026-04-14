@@ -29,8 +29,8 @@ set $mod Mod4
 # is used in the bar {} block below.
 # font pango:monospace 8
 #font pango:Ubuntu Regular 11
-font pango:Inconsolata 10
-#font pango:FiraCode Nerd Font 10
+#font pango:Inconsolata 10
+font pango:FiraCode Nerd Font 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -243,7 +243,7 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 #exec --no-startup-id $HOME/.config/glava/launch.sh
 
 # for vscode workspaces
-bindsym $mod+mod1+space exec --no-startup-id ulauncher
+# bindsym $mod+mod1+space exec --no-startup-id ulauncher
 
 # mount hardisk
 exec_always --no-startup-id $HOME/.config/.utils/mount_hard_drive.sh
@@ -266,3 +266,20 @@ for_window [class="Blueman-manager"] floating enable
 for_window [class="polybar-terminal-network-manager"] floating enable
 for_window [class="Gufw.py"] floating enable
 
+# godot make only game test window float
+for_window [instance="Godot_Engine"] floating enable
+# for_window [class="Godot"] floating disable
+
+# avoid screen automatically turning off
+# https://www.reddit.com/r/i3wm/comments/76clew/screen_turns_off_after_a_few_minutes_how_do_i/
+# xset q -> get info
+exec_always --no-startup-id xset s off
+exec_always --no-startup-id xset s 0
+exec_always --no-startup-id xset -dpms
+exec_always --no-startup-id xset s noblank
+
+# set focus to all new windows opened
+for_window [window_type = "normal"] focus
+for_window [window_type="dialog"] focus
+for_window [window_type="popup_menu"] focus
+for_window [window_type="menu"] focus

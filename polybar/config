@@ -1,4 +1,4 @@
-;==========================================================
+;=========================================================
 ;
 ;
 ;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
@@ -50,10 +50,11 @@ separator = |
 separator-foreground = ${colors.disabled}
 
 ;font-0 = monospace:size=8;2
-font-0 = "FiraCode Nerd Font:style=Regular:pixelsize=10;2"
-font-1 = "FontAwesome6FreeRegular:style=Regular:pixelsize=8;1"
-font-2 = "FontAwesome6FreeSolid:style=Solid:pixelsize=8;1"
-font-3 = "FontAwesome6Brands:pixelsize=8;1"
+font-0 = "FiraCode Nerd Font:style=Medium:pixelsize=10;2"
+font-1 = "Cascadia Code:style=Regular:pixelsize=10;2"
+; font-1 = "FontAwesome6FreeRegular:style=Regular:pixelsize=8;1"
+; font-2 = "FontAwesome6FreeSolid:style=Solid:pixelsize=8;1"
+; font-3 = "FontAwesome6Brands:pixelsize=8;1"
 
 modules-left = xworkspaces
 ;modules-center = frey
@@ -97,9 +98,10 @@ interval = 3600
 [module/backlight]
 type = internal/backlight
 
+; NOTE: autodetect card
 ; Use the following command to list available cards:
 ; $ ls -1 /sys/class/backlight/
-card = amdgpu_bl0
+; card = amdgpu_bl2
 
 ; Use the `/sys/class/backlight/.../actual-brightness` file
 ; rather than the regular `brightness` file.
@@ -216,7 +218,7 @@ label-unmounted-foreground = ${colors.disabled}
 ; https://github.com/polybar/polybar/issues/1380
 type = internal/pulseaudio
 
-format-volume-prefix = " "
+format-volume-prefix = "  "
 ;format-volume-prefix-foreground = ${colors.primary}
 format-volume = <label-volume>
 format-volume-foreground = ${colors.primary}
